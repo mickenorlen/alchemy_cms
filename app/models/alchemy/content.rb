@@ -30,13 +30,7 @@ module Alchemy
 
     stampable stamper_class_name: Alchemy.user_class_name
 
-    acts_as_list
-
-    # ActsAsList scope
-    def scope_condition
-      # Fixes a bug with postgresql having a wrong element_id value, if element_id is nil.
-      "element_id = #{element_id || 'null'} AND essence_type = '#{essence_type}'"
-    end
+    acts_as_list scope: [:element_id]
 
     # Essence scopes
     scope :essence_booleans,  -> { where(essence_type: "Alchemy::EssenceBoolean") }
@@ -178,28 +172,6 @@ module Alchemy
       definition['validate'].present?
     end
 
-    # Returns a string to be passed to Rails form field tags to ensure we have same params layout everywhere.
-    #
-    # === Example:
-    #
-    #   <%= text_field_tag content.form_field_name, content.ingredient %>
-    #
-    # === Options:
-    #
-    # You can pass an Essence column_name. Default is 'ingredient'
-    #
-    # ==== Example:
-    #
-    #   <%= text_field_tag content.form_field_name(:link), content.ingredient %>
-    #
-    def form_field_name(essence_column = 'ingredient')
-      "contents[#{id}][#{essence_column}]"
-    end
-
-    def form_field_id(essence_column = 'ingredient')
-      "contents_#{id}_#{essence_column}"
-    end
-
     # Returns a string used as dom id on html elements.
     def dom_id
       return '' if essence.nil?
@@ -255,7 +227,7 @@ module Alchemy
     #
     # If the value is a symbol it gets passed through i18n
     # inside the +alchemy.default_content_texts+ scope
-    def default_text(default)
+    def default_value(default = definition[:default])
       case default
       when Symbol
         Alchemy.t(default, scope: :default_content_texts)
