@@ -12,7 +12,7 @@
   class: 'file_icon',
   title: Alchemy.t(:assign_file) %>
 
-<div class="content_editor essence_file" id="<%= essence_file_editor.dom_id %>" data-content-id="<%= essence_file_editor.id %>">
+<div class="content_editor essence_file <%= essence_file_editor.classes %>" id="<%= essence_file_editor.dom_id %>" data-content-id="<%= essence_file_editor.id %>">
   <%= content_label(essence_file_editor) %>
   <div class="file" id="file_<%= essence_file_editor.id %>">
     <% if essence_file_editor.ingredient %>

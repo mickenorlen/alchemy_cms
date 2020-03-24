@@ -5,7 +5,8 @@
   class: [
     "content_editor",
     "essence_select",
-    essence_select_editor.settings[:display_inline] ? 'display_inline' : nil
+    essence_select_editor.settings[:display_inline] ? 'display_inline' : nil,
+    essence_select_editor.classes
   ].compact, data: {content_id: essence_select_editor.id} do %>
   <%= content_label(essence_select_editor) %>
 

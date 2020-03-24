@@ -1,4 +1,4 @@
-<div class="content_editor essence_date" id="<%= essence_date_editor.dom_id %>" data-content-id="<%= essence_date_editor.id %>">
+<div class="content_editor essence_date <%= essence_date_editor.classes %>" id="<%= essence_date_editor.dom_id %>" data-content-id="<%= essence_date_editor.id %>">
   <%= content_label(essence_date_editor) %>
   <%= alchemy_datepicker(
     essence_date_editor.essence, :date, {

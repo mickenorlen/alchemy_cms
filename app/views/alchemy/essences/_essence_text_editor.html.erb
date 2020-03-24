@@ -1,4 +1,4 @@
-<div class="essence_text content_editor<%= essence_text_editor.settings[:display_inline] ? ' display_inline' : '' %>" id="<%= essence_text_editor.dom_id %>">
+<div class="essence_text content_editor<%= essence_text_editor.settings[:display_inline] ? ' display_inline' : '' %> <%= essence_text_editor.classes %>" id="<%= essence_text_editor.dom_id %>">
   <%= content_label(essence_text_editor) %>
   <%= text_field_tag(
     essence_text_editor.form_field_name,

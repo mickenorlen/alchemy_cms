@@ -177,6 +177,10 @@ module Alchemy
       definition['validate'].present?
     end
 
+    def classes
+      definition['classes'] || ''
+    end
+
     # Returns a string used as dom id on html elements.
     def dom_id
       return '' if essence.nil?

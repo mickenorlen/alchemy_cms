@@ -1,4 +1,4 @@
-<div class="content_editor essence_link" id="<%= essence_link_editor.dom_id %>" data-content-id="<%= essence_link_editor.id %>">
+<div class="content_editor essence_link <%= essence_link_editor.classes %>" id="<%= essence_link_editor.dom_id %>" data-content-id="<%= essence_link_editor.id %>">
   <%= content_label(essence_link_editor) %>
   <%= text_field_tag '', essence_link_editor.ingredient,
     class: "thin_border text_with_icon disabled",
