@@ -127,18 +127,18 @@ RSpec.describe 'Page editing feature', type: :system do
         create(:alchemy_page, page_layout: 'everything', autogenerate_elements: true)
       end
 
-      it "renders essence editors for all elements" do
+      it "renders essence editors for all elements with user defined classes" do
         visit alchemy.admin_elements_path(page_id: everything_page.id)
 
-        expect(page).to have_selector('div.content_editor.essence_boolean')
-        expect(page).to have_selector('div.content_editor.essence_date')
-        expect(page).to have_selector('div.content_editor.essence_file')
-        expect(page).to have_selector('div.content_editor.essence_html_editor')
-        expect(page).to have_selector('div.content_editor.essence_link')
-        expect(page).to have_selector('div.content_editor.essence_picture')
-        expect(page).to have_selector('div.content_editor.essence_richtext')
-        expect(page).to have_selector('div.content_editor.essence_select')
-        expect(page).to have_selector('div.content_editor.essence_text')
+        expect(page).to have_selector('div.content_editor.essence_boolean.essence_boolean_classes')
+        expect(page).to have_selector('div.content_editor.essence_date.essence_date_classes')
+        expect(page).to have_selector('div.content_editor.essence_file.essence_file_classes')
+        expect(page).to have_selector('div.content_editor.essence_html_editor.essence_html_classes')
+        expect(page).to have_selector('div.content_editor.essence_link.essence_link_classes')
+        expect(page).to have_selector('div.content_editor.essence_picture.essence_picture_classes')
+        expect(page).to have_selector('div.content_editor.essence_richtext.essence_richtext_classes')
+        expect(page).to have_selector('div.content_editor.essence_select.essence_select_classes')
+        expect(page).to have_selector('div.content_editor.essence_text.essence_text_classes')
       end
     end
   end

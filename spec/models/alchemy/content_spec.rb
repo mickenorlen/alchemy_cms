@@ -251,6 +251,28 @@ module Alchemy
       end
     end
 
+    describe "#classes" do
+      let(:content) { build_stubbed(:alchemy_content) }
+
+      context "without user defined classes" do
+        it "returns empty string" do
+          expect(content.classes).to eq('')
+        end
+      end
+
+      context "with user defined classes" do
+        before do
+          expect(content).to receive(:definition).at_least(:once).and_return({
+            'classes' => 'user_defined_classes'
+          })
+        end
+
+        it "returns user defined classes" do
+          expect(content.classes).to eq("user_defined_classes")
+        end
+      end
+    end
+
     describe "#essence_partial_name" do
       let(:content) { build_stubbed(:alchemy_content) }
 
