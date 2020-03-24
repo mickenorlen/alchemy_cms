@@ -19,21 +19,29 @@ jobs:
           - postgresql
     env:
       DB: ${{ matrix.database }}
-      MYSQL_PASSWORD: root
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      DB_USER: alchemy_user
+      DB_PASSWORD: password
+      DB_HOST: '127.0.0.1'
       RAILS_ENV: test
       RAILS_VERSION: ${{ matrix.rails }}
-      CC_TEST_REPORTER_ID: bca4349e32f97919210ac8a450b04904b90683fcdd57d65a22c0f5065482bc22
     services:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: alchemy_user
           POSTGRES_PASSWORD: password
           POSTGRES_DB: alchemy_cms_dummy_test
         ports: ['5432:5432']
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      mysql:
+        image: mysql:latest
+        ports: ['3306:3306']
+        env:
+          MYSQL_USER: alchemy_user
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: alchemy_cms_dummy_test
+          MYSQL_ROOT_PASSWORD: password
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     steps:
       - uses: actions/checkout@v1
       - name: Set up Ruby
@@ -80,15 +88,12 @@ jobs:
       - name: Prepare database
         run: |
           bundle exec rake alchemy:spec:prepare
-      - name: Install code climate test reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
-      - name: Test with RSpec
-        run: |
-          bundle exec rspec
-          ./cc-test-reporter after-build --exit-code $?
+      - name: Run tests & publish code coverage
+        uses: paambaati/codeclimate-action@v2.5.5
+        env:
+          CC_TEST_REPORTER_ID: bca4349e32f97919210ac8a450b04904b90683fcdd57d65a22c0f5065482bc22
+        with:
+          coverageCommand: bundle exec rspec
       - uses: actions/upload-artifact@master
         if: failure()
         with:

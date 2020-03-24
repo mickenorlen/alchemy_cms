@@ -32,6 +32,7 @@ module Alchemy
       }.merge(options)
       languages = Language.on_current_site.published.with_root_page.order("name #{options[:reverse] ? 'DESC' : 'ASC'}")
       return nil if languages.count < 2
+
       render(
         partial: "alchemy/language_links/language",
         collection: languages,
@@ -90,7 +91,7 @@ module Alchemy
         node_partial_name: "#{root_node.view_folder_name}/node"
       }.merge(options)
 
-      render(root_node, menu: root_node, node: root_node, options: options)
+      render(root_node.to_partial_path, menu: root_node, node: root_node, options: options)
     rescue ActionView::MissingTemplate => e
       warning <<~WARN
         Menu partial not found for #{name}.
@@ -152,6 +153,7 @@ module Alchemy
     #
     def page_title(options = {})
       return "" if @page.title.blank?
+
       options = {
         prefix: "",
         suffix: "",
